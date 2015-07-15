@@ -15,4 +15,5 @@ group :development do
   gem 'binding_of_caller'
   gem 'spring'
   gem 'pry-rails'
+  gem 'annotate'
 end
