@@ -1,4 +1,8 @@
 class CatsController < ApplicationController
+
+  before_action :check_status
+  before_action :check_user only: :update, :edit
+
   def index
     @cats = Cat.all
     render :index
@@ -16,6 +20,7 @@ class CatsController < ApplicationController
 
   def create
     @cat = Cat.new(cat_params)
+    @cat.user_id = current_user.id
     if @cat.save
       redirect_to cat_url(@cat)
     else
@@ -36,6 +41,18 @@ class CatsController < ApplicationController
     else
       flash.now[:errors] = @cat.errors.full_messages
       render :edit
+    end
+  end
+
+  def check_status
+    redirect_to new_session_url unless current_user
+  end
+
+  def check_user
+    @cat = Cat.find(params[:id])
+    unless current_user.id == @cat.user_id
+      flash[:errors] = "not so fast"
+      redirect_to cats_url
     end
   end
 

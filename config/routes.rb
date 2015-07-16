@@ -5,5 +5,8 @@ NinetyNineCatsDay1::Application.routes.draw do
     post "deny", on: :member
   end
 
+  resource :user
+  resource :session
+
   root to: redirect("/cats")
 end
